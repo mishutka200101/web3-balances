@@ -5,6 +5,8 @@ from utils.balancer_handler import *
 
 st.set_page_config(page_title="Get Starknet balance")
 st.title('Get Starknet balance')
+with open('styles/main.css') as f:
+    st.markdown("<style>{}</style>".format(f.read()), unsafe_allow_html=True)
 
 addresses_str = st.text_area(label='Insert addresses that splitted by ENTER')
 addresses = addresses_str.split('\n')
