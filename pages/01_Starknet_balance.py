@@ -15,7 +15,7 @@ if addresses_str:
     df = pd.DataFrame(index=addresses, columns=['amount in USDT'])
 
     df = get_balance(df=df, chain="Starknet")
-    st.table(df)
+    st.write(df)
     st.write(
         f"""
         # Total balance ${sum(df['amount in USDT'])}
