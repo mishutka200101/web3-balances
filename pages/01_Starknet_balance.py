@@ -13,6 +13,7 @@ addresses = addresses_str.split('\n')
 
 if addresses_str:
     df = pd.DataFrame(index=addresses, columns=['amount in USDT'])
+    df.index.name = 'address'
 
     df = get_balance(df=df, chain="Starknet")
     st.write(df)
