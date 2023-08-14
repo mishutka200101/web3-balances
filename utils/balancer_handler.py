@@ -7,7 +7,7 @@ from multiprocessing import Pool
 def get_balance(df: pd.DataFrame, chain: str = "Aptos"):
     items = df.index.values
 
-    processes = 40 if len(items) >= 40 else len(items)
+    processes = 20 if len(items) >= 20 else len(items)
 
     if chain == "Aptos":
         with Pool(processes=processes) as p:
