@@ -17,7 +17,7 @@ if addresses_str:
     df.index.name = 'address'
 
     df = get_balance(df=df, chain="Aptos")
-    st.write(df)
+    st.dataframe(data=df, use_container_width=True)
     st.write(
         f"""
         # Total balance ${sum(df['amount in USDT'])}
