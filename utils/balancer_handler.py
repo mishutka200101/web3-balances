@@ -1,22 +1,20 @@
 from utils.starknet_balancer import *
 from utils.aptos_balancer import *
 from utils.file_handler import *
-from multiprocessing import Pool
 
 
 def get_balance(df: pd.DataFrame, chain: str = "Aptos"):
     items = df.index.values
 
-    processes = 20 if len(items) >= 20 else len(items)
+    result = []
 
     if chain == "Aptos":
-        with Pool(processes=processes) as p:
-            result = p.map(func=get_aptos_ballance, iterable=items)
+        pass
     elif chain == "Starknet":
-        with Pool(processes=processes) as p:
-            result = p.map(func=get_starknet_balance, iterable=items)
+        result = asyncio.run(pool_starknet(addresses=items))
 
     for i in result:
         df.at[i[0], 'amount in USDT'] = i[1]
+        df.at[i[0], 'txs'] = i[2]
 
     return df

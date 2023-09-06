@@ -1,7 +1,7 @@
 from utils.priceChecker import *
 
 
-def get_aptos_ballance(address: str):
+def get_aptos_ballance(session, address: str):
     headers = {
         'authority': 'api.aptscan.ai',
         'accept': 'application/json',
@@ -23,7 +23,7 @@ def get_aptos_ballance(address: str):
         'cluster': 'mainnet',
     }
 
-    Tether = ['USDC', 'USDT']
+    Tether = ['USDC', 'USDT', 'DAI']
     total_balance = 0
 
     for i in range(0, 5):
@@ -50,3 +50,4 @@ def get_aptos_ballance(address: str):
             return [address, round(total_balance, 2)]
         except Exception:
             pass
+    return 0
