@@ -14,13 +14,13 @@ addresses = addresses_str.split('\n')
 addresses_stripped = [_.strip() for _ in addresses]
 
 if addresses_str:
-    df = pd.DataFrame(index=addresses_stripped, columns=['amount in USDT'])
-    df.index.name = 'address'
+    aptos_df = pd.DataFrame(index=addresses_stripped, columns=['amount in USDT', 'txs'])
+    aptos_df.index.name = 'address'
 
-    df = get_balance(df=df, chain="Aptos")
-    st.dataframe(data=df, use_container_width=True)
+    aptos_df = get_balance(df=aptos_df, chain="Aptos")
+    st.dataframe(data=aptos_df, use_container_width=True)
     st.write(
         f"""
-        # Total balance ${round(sum(df['amount in USDT'], 2))}
+        # Total balance ${round(sum(aptos_df['amount in USDT'], 2))}
         """
     )
