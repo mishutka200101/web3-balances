@@ -21,7 +21,7 @@ if addresses_str:
     st.dataframe(data=df, use_container_width=True)
     st.write(
         f"""
-        # Total balance ${sum(df['amount in USDT'])}
+        # Total balance ${round(sum(df['amount in USDT'], 2))}
         """
     )
 
