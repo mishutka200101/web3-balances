@@ -1,7 +1,7 @@
 from utils.priceChecker import *
 
 
-def get_aptos_ballance(session, address: str):
+def create_session_aptos():
     headers = {
         'authority': 'api.aptscan.ai',
         'accept': 'application/json',
@@ -18,36 +18,49 @@ def get_aptos_ballance(session, address: str):
         'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36',
     }
 
-    params = {
-        'page': '1',
-        'cluster': 'mainnet',
-    }
+    return aiohttp.ClientSession(headers=headers, )
 
-    Tether = ['USDC', 'USDT', 'DAI']
-    total_balance = 0
 
+async def get_aptos_ballance(session, address: str) -> float:
     for i in range(0, 5):
         try:
-            res = r.get(
-                f"https://api.aptscan.ai/v1/accounts/{address}/coins",
-                params=params,
-                headers=headers,
-            )
-            res_json = res.json()
-            coins = res_json['data']
+            async with session.get(f"https://api.aptscan.ai/v1/accounts/{address}/coin_value?cluster=mainnet") as res:
+                res_json = await res.json()
 
-            for coin in coins:
-                symbol = coin['coin_symbol']
-                decimals = coin['coin_decimals']
-                value = int(coin['amount']) / 10**int(decimals)
-
-                if symbol not in Tether:
-                    usdt_value = ninjasPrice(token=symbol, value=value)
-                    total_balance += usdt_value
-                else:
-                    total_balance += value
-
-            return [address, round(total_balance, 2)]
+                return res_json['data']
         except Exception:
             pass
     return 0
+
+
+async def get_aptos_transactions(session, address: str) -> int:
+    for i in range(0, 5):
+        try:
+            async with session.get(f"https://api.aptscan.ai/v1/accounts/{address}/transactions?page=1&cluster=mainnet&onlyCount=true") as res:
+                res_json = await res.json()
+
+                return int(res_json['data']['count'])
+        except Exception:
+            pass
+    return 0
+
+
+async def mega_aptos(session, address: str) -> list:
+    balance = await get_aptos_ballance(session, address)
+    txs = await get_aptos_transactions(session, address)
+
+    return [address, balance, txs]
+
+
+async def pool_aptos(addresses: list):
+    session = create_session_aptos()
+
+    tasks = []
+
+    for address in addresses:
+        task = asyncio.ensure_future(mega_aptos(session, address))
+        tasks.append(task)
+
+    responses = await asyncio.gather(*tasks)
+    await session.close()
+    return responses

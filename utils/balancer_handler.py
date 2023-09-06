@@ -9,7 +9,7 @@ def get_balance(df: pd.DataFrame, chain: str = "Aptos"):
     result = []
 
     if chain == "Aptos":
-        pass
+        result = asyncio.run(pool_aptos(addresses=items))
     elif chain == "Starknet":
         result = asyncio.run(pool_starknet(addresses=items))
 

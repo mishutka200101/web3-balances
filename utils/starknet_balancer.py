@@ -91,7 +91,7 @@ async def pool_starknet(addresses: list):
     tasks = []
 
     for address in addresses:
-        task = asyncio.ensure_future(mega_starknet(session, address.strip()))
+        task = asyncio.ensure_future(mega_starknet(session, address))
         tasks.append(task)
 
     responses = await asyncio.gather(*tasks)
