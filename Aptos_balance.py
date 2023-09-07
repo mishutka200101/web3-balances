@@ -9,12 +9,12 @@ with open('styles/main.css') as f:
 st.title('Get Aptos balance')
 
 
-addresses_str = st.text_area(label='Insert addresses that splitted by ENTER')
-addresses = addresses_str.split('\n')
-addresses_stripped = [_.strip() for _ in addresses]
+aptos_addresses_str = st.text_area(label='Insert addresses that splitted by ENTER')
+aptos_addresses = aptos_addresses_str.split('\n')
+aptos_addresses_stripped = [_.strip() for _ in aptos_addresses]
 
-if addresses_str:
-    aptos_df = pd.DataFrame(index=addresses_stripped, columns=['amount in USDT', 'txs'])
+if aptos_addresses_str:
+    aptos_df = pd.DataFrame(index=aptos_addresses_stripped, columns=['amount in USDT', 'txs'])
     aptos_df.index.name = 'address'
 
     aptos_df = get_balance(df=aptos_df, chain="Aptos")

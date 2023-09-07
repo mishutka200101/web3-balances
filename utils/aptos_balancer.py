@@ -18,7 +18,7 @@ def create_session_aptos():
         'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36',
     }
 
-    return aiohttp.ClientSession(headers=headers, )
+    return aiohttp.ClientSession(headers=headers)
 
 
 async def get_aptos_ballance(session, address: str) -> float:

@@ -9,12 +9,12 @@ with open('styles/main.css') as f:
 st.title('Get Starknet balance')
 
 
-addresses_str = st.text_area(label='Insert addresses that splitted by ENTER')
-addresses = addresses_str.split('\n')
-addresses_stripped = [_.strip() for _ in addresses]
+starknet_addresses_str = st.text_area(label='Insert addresses that splitted by ENTER')
+starknet_addresses = starknet_addresses_str.split('\n')
+starknet_addresses_stripped = [_.strip() for _ in starknet_addresses]
 
-if addresses_str:
-    starknet_df = pd.DataFrame(index=addresses_stripped, columns=['amount in USDT', 'txs'])
+if starknet_addresses_str:
+    starknet_df = pd.DataFrame(index=starknet_addresses_stripped, columns=['amount in USDT', 'txs'])
     starknet_df.index.name = 'address'
 
     starknet_df = get_balance(df=starknet_df, chain="Starknet")
@@ -24,4 +24,3 @@ if addresses_str:
         # Total balance ${round(sum(starknet_df['amount in USDT'], 2))}
         """
     )
-
