@@ -22,6 +22,7 @@ for address in starknet_addresses_stripped:
 
 starknet_df = pd.DataFrame(data, columns=['address', 'amount in USDT', 'txs'])
 starknet_df.index.name = '№'
+starknet_df.index += 1
 
 starknet_df = get_balance(df=starknet_df, chain="Starknet")
 st.dataframe(data=starknet_df, use_container_width=True)
