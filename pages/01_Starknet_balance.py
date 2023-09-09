@@ -13,14 +13,20 @@ starknet_addresses_str = st.text_area(label='Insert addresses that splitted by E
 starknet_addresses = starknet_addresses_str.split('\n')
 starknet_addresses_stripped = [_.strip() for _ in starknet_addresses]
 
-if starknet_addresses_str:
-    starknet_df = pd.DataFrame(index=starknet_addresses_stripped, columns=['amount in USDT', 'txs'])
-    starknet_df.index.name = 'address'
+if not starknet_addresses_str:
+    st.stop()
 
-    starknet_df = get_balance(df=starknet_df, chain="Starknet")
-    st.dataframe(data=starknet_df, use_container_width=True)
-    st.write(
-        f"""
-        # Total balance ${round(sum(starknet_df['amount in USDT'], 2))}
-        """
-    )
+data = []
+for address in starknet_addresses_stripped:
+    data += [[address, 0, 0]]
+
+starknet_df = pd.DataFrame(data, columns=['address', 'amount in USDT', 'txs'])
+starknet_df.index.name = '№'
+
+starknet_df = get_balance(df=starknet_df, chain="Starknet")
+st.dataframe(data=starknet_df, use_container_width=True)
+st.write(
+    f"""
+    # Total balance ${round(sum(starknet_df['amount in USDT'], 2))}
+    """
+)

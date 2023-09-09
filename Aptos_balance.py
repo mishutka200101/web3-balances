@@ -13,14 +13,20 @@ aptos_addresses_str = st.text_area(label='Insert addresses that splitted by ENTE
 aptos_addresses = aptos_addresses_str.split('\n')
 aptos_addresses_stripped = [_.strip() for _ in aptos_addresses]
 
-if aptos_addresses_str:
-    aptos_df = pd.DataFrame(index=aptos_addresses_stripped, columns=['amount in USDT', 'txs'])
-    aptos_df.index.name = 'address'
+if not aptos_addresses_str:
+    st.stop()
 
-    aptos_df = get_balance(df=aptos_df, chain="Aptos")
-    st.dataframe(data=aptos_df, use_container_width=True)
-    st.write(
-        f"""
-        # Total balance ${round(sum(aptos_df['amount in USDT'], 2))}
-        """
-    )
+data = []
+for address in aptos_addresses_stripped:
+    data += [[address, 0, 0]]
+
+aptos_df = pd.DataFrame(data, columns=['address', 'amount in USDT', 'txs'])
+aptos_df.index.name = '№'
+
+aptos_df = get_balance(df=aptos_df, chain="Aptos")
+st.dataframe(data=aptos_df, use_container_width=True)
+st.write(
+    f"""
+    # Total balance ${round(sum(aptos_df['amount in USDT'], 2))}
+    """
+)
