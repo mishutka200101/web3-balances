@@ -22,9 +22,9 @@ for address in aptos_addresses_stripped:
 
 aptos_df = pd.DataFrame(data, columns=['address', 'amount in USDT', 'txs'])
 aptos_df.index.name = '№'
-aptos_df.index += 1
 
 aptos_df = get_balance(df=aptos_df, chain="Aptos")
+aptos_df.index += 1
 st.dataframe(data=aptos_df, use_container_width=True)
 st.write(
     f"""
