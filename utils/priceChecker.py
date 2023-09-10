@@ -21,8 +21,3 @@ async def ninjasPrice(token: str, value: float):
             return 0
         finally:
             await session.close()
-    # if res.status_code == r.codes.ok:
-    #     price = float(res.json()['price'])
-    #     return price * value
-    # else:
-    #     return 0
