@@ -13,8 +13,8 @@ def get_balance(df: pd.DataFrame, chain: str = "Aptos"):
     elif chain == "Starknet":
         result = asyncio.run(pool_starknet(addresses=items))
 
-    for i, res in enumerate(result):
-        df.at[i, 'amount in USDT'] = res[1]
-        df.at[i, 'txs'] = res[2]
+    for index, (_, balance, txs) in enumerate(result):
+        df.at[index, 'amount in USDT'] = balance
+        df.at[index, 'txs'] = txs
 
     return df

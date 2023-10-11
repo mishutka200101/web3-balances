@@ -3,7 +3,7 @@ from utils.priceChecker import *
 
 def create_session_starknet():
     headers = {
-        'authority': 'starkscan.stellate.sh',
+        'authority': 'starkscan-cdn.stellate.sh',
         'accept': 'application/json',
         'accept-language': 'ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7',
         'content-type': 'application/json',
@@ -34,7 +34,7 @@ async def get_starknet_balance(session, address: str) -> float:
 
     for i in range(0, 5):
         try:
-            async with session.post('https://starkscan.stellate.sh/', json=json_data) as res:
+            async with session.post('https://starkscan-cdn.stellate.sh/', json=json_data) as res:
                 res_json = await res.json()
 
                 all_tokens = res_json['data']['erc20BalancesByOwnerAddress']
@@ -67,9 +67,9 @@ async def get_starknet_transactions(session, address: str) -> int:
         },
     }
 
-    for i in range(0, 5):
+    for _ in range(0, 5):
         try:
-            async with session.post('https://starkscan.stellate.sh/', json=json_data) as res:
+            async with session.post('https://starkscan-cdn.stellate.sh/', json=json_data) as res:
                 res_json = await res.json()
 
                 return int(res_json['data']['contract']['contract_stats']['number_of_transactions'])
@@ -97,7 +97,3 @@ async def pool_starknet(addresses: list):
     responses = await asyncio.gather(*tasks)
     await session.close()
     return responses
-
-
-# loop = asyncio.new_event_loop()
-# print(loop.run_until_complete(test()))
