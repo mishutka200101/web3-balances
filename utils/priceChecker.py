@@ -1,5 +1,5 @@
-import aiohttp
 import asyncio
+from aiohttp import ClientSession
 
 
 async def ninjasPrice(token: str, value: float):
@@ -9,7 +9,7 @@ async def ninjasPrice(token: str, value: float):
     url = 'https://api.api-ninjas.com/v1/cryptoprice?symbol={}'.format(symbol)
     headers = {'X-Api-Key': API_KEY}
 
-    session = aiohttp.ClientSession(headers=headers)
+    session = ClientSession(headers=headers)
 
     async with session.get(url) as r:
         try:

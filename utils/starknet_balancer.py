@@ -3,26 +3,20 @@ from utils.priceChecker import *
 
 def create_session_starknet():
     headers = {
-        'authority': 'graphql.starkscancdn.com',
-        'accept': 'application/json',
-        'accept-language': 'ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7',
-        'content-type': 'application/json',
-        'dnt': '1',
-        'origin': 'https://starkscan.co',
-        'referer': 'https://starkscan.co/',
-        'sec-ch-ua': '"Not.A/Brand";v="8", "Chromium";v="114", "Google Chrome";v="114"',
-        'sec-ch-ua-mobile': '?0',
-        'sec-ch-ua-platform': '"Windows"',
-        'sec-fetch-dest': 'empty',
-        'sec-fetch-mode': 'cors',
-        'sec-fetch-site': 'cross-site',
-        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36',
-    }
+    'sec-ch-ua': '"Google Chrome";v="117", "Not;A=Brand";v="8", "Chromium";v="117"',
+    'DNT': '1',
+    'sec-ch-ua-mobile': '?0',
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36',
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+    'Referer': 'https://starkscan.co/',
+    'sec-ch-ua-platform': '"Windows"',
+}
 
-    return aiohttp.ClientSession(headers=headers)
+    return ClientSession(headers=headers)
 
 
-async def get_starknet_balance(session, address: str) -> float:
+async def get_starknet_balance(session: ClientSession, address: str) -> float | int:
     json_data = {
         'query': 'query ERC20BalancesByOwnerAddressTableQuery(\n  $input: ERC20BalancesByOwnerAddressInput!\n) {\n  erc20BalancesByOwnerAddress(input: $input) {\n    id\n    ...ERC20BalancesByOwnerAddressTableRowFragment_erc20Balance\n  }\n}\n\nfragment ERC20BalancesByOwnerAddressTableRowFragment_erc20Balance on ERC20Balance {\n  id\n  contract_address\n  contract_erc20_identifier\n  contract_erc20_contract {\n    symbol\n    is_social_verified\n    icon_url\n    id\n  }\n  balance_display\n}\n',
         'variables': {
@@ -82,7 +76,7 @@ async def mega_starknet(session, address: str) -> list:
     balance = await get_starknet_balance(session, address)
     txs = await get_starknet_transactions(session, address)
 
-    return [address, balance, txs]
+    return address, balance, txs
 
 
 async def pool_starknet(addresses: list):

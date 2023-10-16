@@ -18,10 +18,10 @@ def create_session_aptos():
         'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36',
     }
 
-    return aiohttp.ClientSession(headers=headers)
+    return ClientSession(headers=headers)
 
 
-async def get_aptos_ballance(session, address: str) -> float:
+async def get_aptos_ballance(session: ClientSession, address: str) -> float:
     for i in range(0, 5):
         try:
             async with session.get(f"https://api.aptscan.ai/v1/accounts/{address}/coin_value?cluster=mainnet") as res:
@@ -33,7 +33,7 @@ async def get_aptos_ballance(session, address: str) -> float:
     return 0
 
 
-async def get_aptos_transactions(session, address: str) -> int:
+async def get_aptos_transactions(session: ClientSession, address: str) -> int:
     for i in range(0, 5):
         try:
             async with session.get(f"https://api.aptscan.ai/v1/accounts/{address}/transactions?page=1&cluster=mainnet&onlyCount=true") as res:
@@ -45,11 +45,11 @@ async def get_aptos_transactions(session, address: str) -> int:
     return 0
 
 
-async def mega_aptos(session, address: str) -> list:
+async def mega_aptos(session: ClientSession, address: str) -> list:
     balance = await get_aptos_ballance(session, address)
     txs = await get_aptos_transactions(session, address)
 
-    return [address, balance, txs]
+    return address, balance, txs
 
 
 async def pool_aptos(addresses: list):
