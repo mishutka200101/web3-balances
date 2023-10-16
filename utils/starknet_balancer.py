@@ -3,15 +3,15 @@ from utils.priceChecker import *
 
 def create_session_starknet():
     headers = {
-    'sec-ch-ua': '"Google Chrome";v="117", "Not;A=Brand";v="8", "Chromium";v="117"',
-    'DNT': '1',
-    'sec-ch-ua-mobile': '?0',
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36',
-    'Content-Type': 'application/json',
-    'Accept': 'application/json',
-    'Referer': 'https://starkscan.co/',
-    'sec-ch-ua-platform': '"Windows"',
-}
+        'sec-ch-ua': '"Google Chrome";v="117", "Not;A=Brand";v="8", "Chromium";v="117"',
+        'DNT': '1',
+        'sec-ch-ua-mobile': '?0',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36',
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Referer': 'https://starkscan.co/',
+        'sec-ch-ua-platform': '"Windows"',
+    }
 
     return ClientSession(headers=headers)
 
